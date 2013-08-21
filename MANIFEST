@@ -1,0 +1,8 @@
+Changes
+Makefile.PL
+MANIFEST
+ppport.h
+README
+XS.xs
+t/List-BinarySearch-XS.t
+lib/List/BinarySearch/XS.pm

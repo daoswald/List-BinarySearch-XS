@@ -1,0 +1,6 @@
+Revision history for Perl extension List::BinarySearch::XS.
+
+0.01  Tue Aug 20 14:55:09 2013
+	- original version; created by h2xs 1.23 with options
+		-A -b 5.8.0 -n List::BinarySearch::XS
+
