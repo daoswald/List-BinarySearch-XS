@@ -117,17 +117,18 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
 
 
 MODULE = List::BinarySearch::XS		PACKAGE = List::BinarySearch::XS		
-
+PROTOTYPES: ENABLE
 
 SV *
 binsearch (block, needle, aref_haystack)
 	SV *	block
 	SV *	needle
 	SV *	aref_haystack
+  PROTOTYPE: &$\@
 
 SV *
 binsearch_pos (block, needle, aref_haystack)
 	SV *	block
 	SV *	needle
 	SV *	aref_haystack
-
+  PROTOTYPE: &$\@

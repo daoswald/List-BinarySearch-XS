@@ -5,4 +5,5 @@ ppport.h
 README
 XS.xs
 t/List-BinarySearch-XS.t
+t/11-search.t
 lib/List/BinarySearch/XS.pm

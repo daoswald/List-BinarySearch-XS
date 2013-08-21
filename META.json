@@ -1,10 +1,10 @@
 {
-   "abstract" : "Perl extension for blah blah blah",
+   "abstract" : "Binary Search a sorted array with XS routines.",
    "author" : [
       "David Oswald <davido@(none)>"
    ],
-   "dynamic_config" : 0,
-   "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921",
+   "dynamic_config" : 1,
+   "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.132140",
    "license" : [
       "unknown"
    ],
@@ -34,6 +34,6 @@
          "requires" : {}
       }
    },
-   "release_status" : "stable",
-   "version" : "0.01"
+   "release_status" : "testing",
+   "version" : "0.01_001"
 }
