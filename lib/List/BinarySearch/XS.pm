@@ -8,26 +8,18 @@ require Exporter;
 
 our @ISA = qw(Exporter);
 
-# Items to export into callers namespace by default. Note: do not export
-# names by default without a very good reason. Use EXPORT_OK instead.
-# Do not simply export all your public functions/methods/constants.
+# Items to export into callers namespace by default.
 
-our @EXPORT = qw( );
+our @EXPORT = qw( );  ## no critic(export)
 our @EXPORT_OK = qw( binsearch binsearch_pos );
-
-
-# This allows declaration	use List::BinarySearch::XS ':all';
-# If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
-# will save memory.
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 
-our $VERSION = '0.01_001';
+our $VERSION = '0.01_002';
 our $XS_VERSION = $VERSION;
 require XSLoader;
 XSLoader::load('List::BinarySearch::XS', $VERSION);
 $VERSION = eval $VERSION; ## no critic(eval)
-
 
 # Preloaded methods go here.
 
@@ -41,7 +33,7 @@ List::BinarySearch::XS - Binary Search a sorted array with XS routines.
 
 =head1 VERSION
 
-Version 0.01_001
+Version 0.01_002
 
 =head1 SYNOPSIS
 
@@ -77,7 +69,7 @@ Examples:
 
 =head1 DESCRIPTION
 
-B<This is an alpha-level DEVELOPER'S release. Use at your own risk. Testing
+B<This is a beta-level DEVELOPER'S release. Use at your own risk. Testing
 and feeback are welcome.>
 
 A binary search searches I<sorted> lists using a divide and conquer technique.

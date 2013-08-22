@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 # Before 'make install' is performed this script should be runnable with
 # 'make test'. After 'make install' it should work as 'perl List-BinarySearch-XS.t'
 
@@ -30,7 +31,7 @@ my @tests = (
   [ 'Empty list',              [                                                                ] ],
 );
 
-( $a, $b ) = ( "Hello", "world" );
+local( $a, $b ) = ( "Hello", "world" );
 
 # Note: We use &subroutine(...) calling convention to override prototypes.
 # We want this test set to be independent of prototypes.
@@ -40,8 +41,7 @@ subtest 'binsearch() tests.' => sub {
     my( $name, $list ) = @{$test};
     test_list_bsearch( $name, $list );
   }
-
-  my $found_ix = &binsearch( sub{no warnings qw(numeric); $a<=>$b}, "Hello", $tests[0][1] );
+  my $found_ix = &binsearch( sub{no warnings qw(numeric); $a<=>$b}, "Hello", $tests[0][1] );  ## no critic(warnings)
   is( $found_ix, undef, "Searching for string using numeric comparator; item not found." );
   $found_ix = &binsearch( sub{$a cmp $b}, "Hello", $tests[0][1] );
   is( $found_ix, undef, "Searching for string using string comparator; item not found." );
@@ -84,4 +84,5 @@ sub test_list_bsearch {
     my $found = defined($found_index) ? "Found." : "Not found.";
     is( $found_index, $known_index, "$name. Needle:$needle. $found" );
   }
+  return;
 }
