@@ -1,5 +1,16 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
+0.01_002 Thu Aug 22 13:23:00 2013
+  - Restore compatibility with Perl versions older than 5.16 by changing
+    av_top_index to av_len.  av_top_index is a more sanely named synonym to
+    av_len, but wasn't available until Perl 5.16.
+  - POD corrections.
+
+0.01_001 Wed Aug 21 16:00:00 2013
+  - Applied code adapted from a binary search utility written with Inline::C.
+  - Adapted POD from List::BinarySearch
+  - Minimal testing added (additional still to be adapted from L::BS).
+
 0.01  Tue Aug 20 14:55:09 2013
 	- original version; created by h2xs 1.23 with options
 		-A -b 5.8.0 -n List::BinarySearch::XS

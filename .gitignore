@@ -14,3 +14,6 @@ cover_db
 pod2htm*.tmp
 List-BinarySearch-*
 *.tmp
+*.c
+*.o
+*.bs

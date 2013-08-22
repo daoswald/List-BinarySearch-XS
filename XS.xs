@@ -27,7 +27,7 @@ SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
   if( ! SvROK( aref_haystack ) || SvTYPE(SvRV(aref_haystack)) != SVt_PVAV )
     croak( "Argument must be an array ref.\n" );
 
-  max = av_top_index( (AV*)SvRV(aref_haystack) );
+  max = av_len( (AV*)SvRV(aref_haystack) ); /* Perl 5.16 applied av_top_index synonym */
 
   if( max < 0 ) return &PL_sv_undef; /* Empty list; needle can't be found. */
 
@@ -51,12 +51,14 @@ SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
   }
 
   /* Detect if we have a winner, and who won. */
-  GvSV(agv) = needle;
-  GvSV(bgv) = *av_fetch((AV*)SvRV(aref_haystack),min,0);
-  MULTICALL;
-  if( max == min && SvIV( *PL_stack_sp ) == 0 ) {
-    POP_MULTICALL;
-    return newSViv(min);
+  if( max == min ) {
+    GvSV(agv) = needle;
+    GvSV(bgv) = *av_fetch((AV*)SvRV(aref_haystack),min,0);
+    MULTICALL;
+    if( SvIV(*PL_stack_sp ) == 0 ) {
+      POP_MULTICALL;
+      return newSViv(min);
+    }
   }
 
   /* Otherwise we have a loser. */
@@ -88,7 +90,7 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
   if( ! SvROK( aref_haystack ) || SvTYPE(SvRV(aref_haystack)) != SVt_PVAV )
     croak( "Argument must be an array ref.\n" );
 
-  high = av_top_index( (AV*)SvRV(aref_haystack) ) + 1; /* scalar @{$aref} */
+  high = av_len( (AV*)SvRV(aref_haystack) ) + 1; /* scalar @{$aref} (Perl 5.16 introduced av_top_index synonym.) */
 
   if( high <= 0 ) return newSViv(low); /* Empty list; insert at zero. */
 

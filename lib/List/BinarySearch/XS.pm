@@ -45,54 +45,53 @@ Version 0.01_001
 
 =head1 SYNOPSIS
 
-This module performs a binary search on arrays.  XS search routines are used for
-optimal performance.
+This module performs a binary search on arrays.  XS code is used for the search
+routines to facilitate optimal performance.
 
 Examples:
 
-
+    # Import all functions.
     use List::BinarySearch::XS qw( :all );
-    use List::BinarySearch qw( binsearch  binsearch_pos );
+    # or be explicit...
+    use List::BinarySearch::XS qw( binsearch  binsearch_pos );
 
+    # Sample data.
     @num_array =   ( 100, 200, 300, 400, 500 );
     @str_array = qw( Bach Beethoven Brahms Mozart Schubert );
 
 
     # Find the lowest index of a matching element.
-
     $index = binsearch {$a <=> $b} 300, @num_array;
     $index = binsearch {$a cmp $b} 'Mozart', @str_array;      # Stringy cmp.
     $index = binsearch {$a <=> $b} 42, @num_array;            # not found: undef
 
     # Find the lowest index of a matching element, or best insert point.
-
+    $index = binsearch_pos { $a <=> $b } 200, @num_array;     # Matched at [1].
     $index = binsearch_pos {$a cmp $b} 'Chopin', @str_array;  # Insert at [3].
     $index = binsearch_pos 600, @num_array;                   # Insert at [5].
 
+    # Insert based on a binsearch_pos return value.
     splice @num_array, $index, 1, 600
       if( $num_array[$index] != 600 );                        # Insertion at [5]
-
-    $index = binsearch_pos { $a <=> $b } 200, @num_array;     # Matched at [1].
 
 
 =head1 DESCRIPTION
 
 B<This is an alpha-level DEVELOPER'S release. Use at your own risk. Testing
-and feeback is welcome.>
+and feeback are welcome.>
 
-A binary search searches B<sorted> lists using a divide and conquer technique.
+A binary search searches I<sorted> lists using a divide and conquer technique.
 On each iteration the search domain is cut in half, until the result is found.
 The computational complexity of a binary search is O(log n).
 
-This module implements several Binary Search algorithms using XS for optimal
-performance.  You are free to use this module directly, or as a plugin for
-the more general L<List::BinarySearch>
+This module implements several Binary Search algorithms using XS code for
+optimal performance.  You are free to use this module directly, or as a plugin
+for the more general L<List::BinarySearch>.
 
 The binary search algorithm implemented in this module is known as a
-Deferred Detection variant on the traditional Binary Search.  Deferred
-Detection provides B<stable searches>.  Stable binary search algorithms have
-the following characteristics, contrasted with their unstable binary search
-cousins:
+Deferred Detection Binary Search.  Deferred Detection provides
+B<stable searches>.  Stable binary search algorithms have the following
+characteristics, contrasted with their unstable binary search cousins:
 
 =over 4
 
@@ -103,7 +102,7 @@ would return the first one found, which may not be the chronological first.
 =item * Best and worst case time complexity is always O(log n).  Unstable
 searches may find the target in fewer iterations in the best case, but in the
 worst case would still be O(log n).  In practical terms, this difference is
-usually not meaningful.
+rarely meaningful.
 
 =item * Stable binary searches only require one relational comparison of a
 given pair of data elements per iteration, where unstable binary searches
@@ -135,24 +134,31 @@ So the answer to the question "Why use a module for this?" is "So that you
 don't have to write, test, and debug your own implementation."
 
 Nevertheless, before using this module the user should weigh the other
-options: linear searches ( C<grep> or C<List::Util::first> ), or hash based
-searches. A binary search only makes sense if the data set is already sorted
-in ascending order, and if it is determined that the cost of a linear search,
-or the linear-time conversion to a hash-based container is too inefficient or
-demands too much memory.  So often, it just doesn't make sense to try to
-optimize beyond what Perl's tools natively provide.
+options: linear searches ( C<grep>, C<List::Util::first>, or
+C<List::MoreUtils::firstidx> ), or hash based searches. A binary search usually
+makes sense only if the data set is already sorted in ascending order, and if it
+is determined that the cost of a linear search, or the linear-time conversion to
+a hash-based container is too inefficient or demands too much memory.
+Occasionally if lots of lookups will be done in a list it could be reasonable to
+sort first, then use a binary search.  But often, it just doesn't make sense to
+try to optimize beyond what Perl's tools natively provide.
 
-However, there are cases where a binary search may be an excellent choice.
+But there are cases where a binary search may be an excellent choice.
 Finding the first matching element in a list of 1,000,000 items with a linear
-search would have a worst-case of 1,000,000 iterations, whereas the worst case
-for a binary search of 1,000,000 elements is about 20 iterations.  In fact, if
-many lookups will be performed on a seldom-changed list, the savings of
-O(log n) lookups may outweigh the cost of sorting or performing occasional
+search would have a worst-case of 1,000,000 iterations, and an average case of
+500,000 itreations, whereas the binary search of 1,000,000 elements will always
+be about 20 iterations.  In fact, if many lookups will be performed on a
+seldom-changing list, the savings of O(log n) lookups may outweigh the
+O(n log n) cost of sorting or the linear-time cost of performing occasional
 ordered inserts.
 
-Profile, then benchmark, then consider (and benchmark) the options, and
-finally, optimize.
-
+Profile, then benchmark, and finally optimize.  Tom Duff (inventor of the
+diabolical "Duff's Device")
+L<once said|http://www.lysator.liu.se/c/duffs-device.html>, "I<If your code is
+too slow, you must make it faster.  If no better algorithm is available, you
+must trim cycles.>" L<List::BinarySearch::XS> provides an algorithm that is
+better under certain circumstances.  And the XS code does its best to also
+trim cycles.
 
 
 =head1 EXPORT
@@ -208,10 +214,10 @@ element is found, the best insert-point for C<$needle> is returned.
 
 =head2 The callback block (The comparator)
 
-Comparators in L<List::BinarySearch> are used to compare the target (needle)
-with individual haystack elements, returning the result of the relational
-comparison of the two values.  A good example would be the code block in a
-C<sort> function.
+Comparators in L<List::BinarySearch::XS> are used to compare the target (needle)
+with individual haystack elements, and should return the result of the
+relational comparison of the two values.  A good example would be the code block
+in a C<sort> function.
 
 Basic comparators might be defined like this:
 
@@ -223,12 +229,12 @@ Basic comparators might be defined like this:
 
     # Unicode Collation Algorithm comparisons
     $Collator = Unicode::Collate->new;
-    binsearch { $Collator->( $a, $b ) } $needle, @haystack;
+    binsearch { $Collator->cmp($a,$b) } $needle, @haystack;
 
-C<$a> represents the target.  C<$b> represents the contents of the haystack
-element being tested.  This leads to an asymmetry that might be prone to
-"gotchas" when writing custom comparators for searching complex data structures.
-As an example, consider the following data structure:
+On each call, C<$a> represents the target, and C<$b> represents the an
+individual haystack element being tested.  This leads to an asymmetry that might
+be prone to "gotchas" when writing custom comparators for searching complex data
+structures. As an example, consider the following data structure:
 
     my @structure = (
         [ 100, 'ape'  ],
@@ -237,41 +243,44 @@ As an example, consider the following data structure:
         [ 400, 'frog' ]
     );
 
-A numeric custom comparator for such a data structure would look like this:
+A numeric comparator for such a data structure would look like this:
 
-    sub{ $a <=> $b[0] }
+    sub{ $a <=> $b->[0] }
 
-In this regard, the callback is unlike C<sort>, because C<sort> is always
-comparing to elements, whereas C<binsearch> is comparing a target with an
-element.
+In this regard, the callback is I<unlike> C<sort>, because C<sort> always
+compares elements to elements, whereas C<binsearch> compares a target with
+an element.
 
 
 =head1 DATA SET REQUIREMENTS
 
 A well written general algorithm should place as few demands on its data as
-practical.  The three requirements that these Binary Search algorithms impose
+practical.  The requirements that these Binary Search algorithms impose
 are:
 
 =over 4
 
-=item * B<The list must be in ascending sorted order>.
+=item * B<Your data must be in ascending sort order>.
 
 This is a big one.  The best sort routines run in O(n log n) time.  It makes no
 sense to sort a list in O(n log n) time, and then perform a single O(log n)
-binary search when List::Util C<first> could accomplish the same thing in O(n)
-time without sorting.
+binary search when List::Util C<first> could be used to accomplish the same
+results in O(n) time without sorting.
 
-=item * B<The list must be in ascending sorted order.>
+=item * B<The list really must be in ascending sort order.>
+
+"The same rule twice?", you say...
 
 A Binary Search consumes O(log n) time. We don't want to waste linear time
 verifying the list is sordted, so B<there is no validity checking. You have
 been warned.>
 
-=item * B<These functions are prototyped> as (&$\@) or ($\@).
+=item * B<These functions are prototyped> as C<&$\@>.
 
 What this implementation detail means is that C<@haystack> is implicitly passed
 by reference.  This is the price we pay for a familiar user interface, cleaner
-calling syntax, and the automatic efficiency of pass-by-reference.
+calling syntax, and the automatic efficiency of pass-by-reference.  Perl's
+prototypes are one of Perl's warts.
 
 =item * B<Objects in the search lists must be capable of being evaluated for
 relationaity.>
@@ -288,7 +297,7 @@ Lists sorted according to the Unicode Collation Algorithm must be searched using
 the same Unicode Collation Algorithm, Here's an example using
 L<Unicode::Collate>'s C<< $Collator->cmp($a,$b) >>:
 
-    my $found_index = binsearch { $Collator->cmp($a, $b) } $needle, @haystack;
+    my $found_index = binsearch { $Collator->cmp($a,$b) } $needle, @haystack;
 
 
 =head1 CONFIGURATION AND ENVIRONMENT
@@ -302,7 +311,7 @@ advantageous to install a pre-built PPM distribution of this module.
 IMPLEMENTED ***)
 
 While it's perfectly Ok to use this module directly, a more flexible approach
-would be to C<use List::BinarySearch qw( :all );>, while ensuring that
+for the end user would be to C<use List::BinarySearch;>, while ensuring that
 L<List::BinarySearch::XS> is installed on the target machine.
 L<List::BinarySearch> will use the XS version automatically if it's installed,
 and will downgrade gracefully to the pure-Perl version if
@@ -352,7 +361,11 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=List-BinarySearch-XS>.  I will
 be notified, and then you'll automatically be notified of progress on your bug
 as I make changes.
 
-
+For the time being, L<List::BinarySearch::XS> does not implement the
+C<binsearch_range> function available in L<List::BinarySearch>.  Although that
+function came almost directly from Mastering Algorithms with Perl, I'm not
+convinced that the function is useful as implemented.  See the POD for
+L<List::BinarySearch> for additional information.
 
 =head1 SUPPORT
 
@@ -393,10 +406,10 @@ L<http://search.cpan.org/dist/List-BinarySearch-XS/>
 
 Thanks toL<Mastering Algorithms with Perl|http://shop.oreilly.com/product/9781565923980.do>,
 from L<O'Reilly|http://www.oreilly.com>: for the inspiration (and much of the
-code) behind the positional.  Quoting MAwP: "I<...the binary search was first
-documented in 1946 but the first algorithm that worked for all sizes of array
-was not published until 1962.>" (A summary of a passage
-from Knuth: Sorting and Searching, 6.2.1.)
+code) behind the positional search.  Quoting Mastering Algorithms with Perl:
+"I<...the binary search was first documented in 1946 but the first algorithm
+that worked for all sizes of array was not published until 1962.>" (A summary of
+a passage from Knuth: Sorting and Searching, 6.2.1.)
 
 I<Although the basic idea of binary search is comparatively straightforward,
 the details can be surprisingly tricky...>  -- Donald Knuth
