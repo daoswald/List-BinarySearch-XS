@@ -1,11 +1,12 @@
 ---
 abstract: 'Binary Search a sorted array with XS routines.'
 author:
-  - 'David Oswald <davido@(none)>'
+  - 'David Oswald <davido [@at] cpan [d.o.t.] org>'
 build_requires:
-  ExtUtils::MakeMaker: 0
+  English: 0
+  Test::More: 0.98
 configure_requires:
-  ExtUtils::MakeMaker: 0
+  ExtUtils::MakeMaker: 6.62
 dynamic_config: 1
 generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.132140'
 license: unknown
@@ -18,4 +19,4 @@ no_index:
     - t
     - inc
 requires: {}
-version: 0.01_001
+version: 0.01_002

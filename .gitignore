@@ -1,5 +1,6 @@
 MYMETA.json
 MYMETA.yml
+Makefile
 *.html
 blib*
 Makefile
