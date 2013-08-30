@@ -3,7 +3,7 @@
 #include "perl.h"
 #include "XSUB.h"
 #include "multicall.h"
-#include "ppport.h"
+/* #include "ppport.h" */
 
 /* Returns index of found element, or undef if none found. */
 
