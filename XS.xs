@@ -3,7 +3,11 @@
 #include "perl.h"
 #include "XSUB.h"
 #include "multicall.h"
-/* #include "ppport.h" */
+/* Commented out:
+ * #include "ppport.h"
+ * as it caused a problem with the cxinc symbol.  May need to reinstate it
+ * and find another solution, though.
+ */
 
 /* Returns index of found element, or undef if none found. */
 
