@@ -1,5 +1,11 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
+0.01_003 Thu Aug 29 23:11:00 2013
+  - Address some issues with backwards compatibility for Perl 5.10/5.8.
+  - Test a fix for Windows.
+  - Test a fix for the cxinc problem.
+  - Make sure all "author" tests are disabled unless RELEASE_TESTING set.
+  
 0.01_002 Thu Aug 22 13:23:00 2013
   - Restore compatibility with Perl versions older than 5.16 by changing
     av_top_index to av_len.  av_top_index is a more sanely named synonym to
