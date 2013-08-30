@@ -8,6 +8,7 @@
 /* Returns index of found element, or undef if none found. */
 
 SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
+  dTHX;
   dSP;
   dMULTICALL;
   GV *gv;
@@ -71,6 +72,7 @@ SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
 /* Returns index of found element, or index of insert point if none found. */
 
 SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
+  dTHX;
   dSP;
   dMULTICALL;
   GV *gv;
