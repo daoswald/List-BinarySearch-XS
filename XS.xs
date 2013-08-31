@@ -1,13 +1,50 @@
+
+
+
+
+
+/* Favor efficiency. There have been reports of this failing under Windows,
+ * which needs further investigation once I see an appropriate FAIL report.
+ */
 #define PERL_NO_GET_CONTEXT
+
+
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-#include "multicall.h"
-/* Commented out:
- * #include "ppport.h"
- * as it caused a problem with the cxinc symbol.  May need to reinstate it
- * and find another solution, though.
+
+
+/* Stolen from List::MoreUtils, but it seems clear enough how it works, so
+ * I'll cargo-cult the code shamelessly (and cross my fingers).
+ * Must appear after the three preceeding "includes".
  */
+ 
+#ifndef PERL_VERSION
+#    include <patchlevel.h>
+#    if !(defined(PERL_VERSION) || (SUBVERSION > 0 && defined(PATCHLEVEL)))
+#        include <could_not_find_Perl_patchlevel.h>
+#    endif
+#    define PERL_REVISION	5
+#    define PERL_VERSION	PATCHLEVEL
+#    define PERL_SUBVERSION	SUBVERSION
+#endif
+
+
+/* cxinc wasn't part of the public API for 5.8 and 5.10, so we have to
+ * define it here.  This is unnecessary for 5.12+
+ * See http://www.nntp.perl.org/group/perl.perl5.porters/2009/07/msg149207.html
+ * for a discussion on the issue.
+ */
+#if PERL_VERSION < 12
+#define cxinc()                        Perl_cxinc(aTHX)
+#endif
+
+
+
+#include "multicall.h"
+#include "ppport.h"
+
+
 
 /* Returns index of found element, or undef if none found. */
 
