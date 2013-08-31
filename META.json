@@ -4,9 +4,9 @@
       "David Oswald <davido [@at] cpan [d.o.t.] org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.132140",
+   "generated_by" : "ExtUtils::MakeMaker version 6.74, CPAN::Meta::Converter version 2.120921",
    "license" : [
-      "unknown"
+      "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -36,5 +36,5 @@
       }
    },
    "release_status" : "testing",
-   "version" : "0.01_003"
+   "version" : "0.01_004"
 }

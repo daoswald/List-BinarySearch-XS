@@ -8,6 +8,7 @@ WriteMakefile(
     ($] >= 5.005 ?                      # New keywords supported since 5.005
       (ABSTRACT_FROM    => 'lib/List/BinarySearch/XS.pm', # Retrieve abstract
        AUTHOR           => 'David Oswald <davido [@at] cpan [d.o.t.] org>') : ()),
+    LICENSE							=> 'perl',
     LIBS                => [''],        # e.g., '-lm'
     DEFINE              => '',          # e.g., '-DHAVE_SOMETHING'
     INC                 => '-I.',       # e.g., '-I. -I/usr/include/other'

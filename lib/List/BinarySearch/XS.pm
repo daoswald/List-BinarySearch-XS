@@ -15,7 +15,7 @@ our @EXPORT_OK = qw( binsearch binsearch_pos );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 
-our $VERSION = '0.01_003';
+our $VERSION = '0.01_004';
 our $XS_VERSION = $VERSION;
 require XSLoader;
 XSLoader::load('List::BinarySearch::XS', $VERSION);
