@@ -36,6 +36,7 @@ subtest "Basic Usage" => sub {
     }
     done_testing();
   };
+
   subtest "binsearch_pos" => sub {
     foreach my $test ( @numeric_tests ) {
       foreach my $needle ( 0 .. 64 ) {
@@ -51,9 +52,24 @@ subtest "Basic Usage" => sub {
   done_testing();
 };
 
+# No match contextual returns: undef, or empty list.
+is( ( binsearch { $a <=> $b } 10, @{[ 7, 9, 11 ]} ), undef,
+    'binsearch: undef returned in scalar context for no match.'
+);
+
+TODO: {
+  local $TODO = "Return empty list in list context on no match not fixed yet.";
+  my @result_set = binsearch { $a <=> $b } 10, @{[ 7, 9, 11 ]};
+  is( scalar @result_set, 0,
+      'binsearch: empty list returned in list context for no match.'
+  );
+} 
+
+# Verify we can use a subref rather than block.
 my $found = binsearch_pos( sub{ $a <=> $b }, 10, @{[ 2, 4, 6, 8, 10, 12, 14, 16 ]} );
 is( $found, 4, 'Subref and aref work despite prototypes.' );
 
+# Verify that $a and $b are in-tact.
 is( "$a $b", 'Hello world!', '$a and $b were not clobbered.' );
 
 done_testing();

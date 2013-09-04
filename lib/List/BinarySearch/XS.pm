@@ -15,7 +15,7 @@ our @EXPORT_OK = qw( binsearch binsearch_pos );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 
-our $VERSION = '0.01_004';
+our $VERSION = '0.01_005';
 our $XS_VERSION = $VERSION;
 require XSLoader;
 XSLoader::load('List::BinarySearch::XS', $VERSION);
@@ -81,36 +81,37 @@ optimal performance.  You are free to use this module directly, or as a plugin
 for the more general L<List::BinarySearch>.
 
 The binary search algorithm implemented in this module is known as a
-Deferred Detection Binary Search.  Deferred Detection provides
+I<Deferred Detection> Binary Search.  Deferred Detection provides
 B<stable searches>.  Stable binary search algorithms have the following
 characteristics, contrasted with their unstable binary search cousins:
 
 =over 4
 
-=item * In the case of non-unique keys, a stable binary search will
-always return the lowest-indexed matching element.  An unstable binary search
-would return the first one found, which may not be the chronological first.
+=item * In the case of non-unique keys, a stable binary search will always
+return the lowest-indexed matching element.  An unstable binary search would
+return the first one found, which may not be the chronological first.
 
 =item * Best and worst case time complexity is always O(log n).  Unstable
-searches may find the target in fewer iterations in the best case, but in the
-worst case would still be O(log n).  In practical terms, this difference is
-rarely meaningful.
+searches may stop once the target is found, but in the worst case are still
+O(log n).  In practical terms, this difference is usually not meaningful.
 
 =item * Stable binary searches only require one relational comparison of a
 given pair of data elements per iteration, where unstable binary searches
 require two comparisons per iteration.
 
 =item * The net result is that although an unstable binary search might have
-a better "best case" time complexity, the fact that a stable binary search
-gets away with fewer comparisons per iteration gives it better performance
-in the worst case, and approximately equal performance in the average case.
-By trading away slightly better "best case" performance, the stable search
-gains the guarantee that the element found will always be the lowest-indexed
-element in a range of non-unique keys.
+better "best case" performance, the fact that a stable binary search gets away
+with fewer comparisons per iteration gives it better performance in the worst
+case, and approximately equal performance in the average case. By trading away
+slightly better "best case" performance, the stable search gains the guarantee
+that the element found will always be the lowest-indexed element in a range of
+non-unique keys.
 
 =back
 
 =head1 RATIONALE
+
+B<A binary search is pretty simple, right?  Why use a module for this?>
 
 Quoting from
 L<Wikipedia|http://en.wikipedia.org/wiki/Binary_search_algorithm>:  I<When Jon
@@ -125,32 +126,21 @@ undetected for over twenty years.>
 So the answer to the question "Why use a module for this?" is "So that you
 don't have to write, test, and debug your own implementation."
 
-Nevertheless, before using this module the user should weigh the other
-options: linear searches ( C<grep>, C<List::Util::first>, or
-C<List::MoreUtils::firstidx> ), or hash based searches. A binary search usually
-makes sense only if the data set is already sorted in ascending order, and if it
-is determined that the cost of a linear search, or the linear-time conversion to
-a hash-based container is too inefficient or demands too much memory.
-Occasionally if lots of lookups will be done in a list it could be reasonable to
-sort first, then use a binary search.  But often, it just doesn't make sense to
-try to optimize beyond what Perl's tools natively provide.
+B<< Perl has C<grep>, hashes, and other alternatives, right? >>
 
-But there are cases where a binary search may be an excellent choice.
-Finding the first matching element in a list of 1,000,000 items with a linear
-search would have a worst-case of 1,000,000 iterations, and an average case of
-500,000 itreations, whereas the binary search of 1,000,000 elements will always
-be about 20 iterations.  In fact, if many lookups will be performed on a
-seldom-changing list, the savings of O(log n) lookups may outweigh the
-O(n log n) cost of sorting or the linear-time cost of performing occasional
-ordered inserts.
+Yes, before using this module the user should weigh the other options such as
+linear searches ( C<grep> or C<List::Util::first> ), or hash based searches. A
+binary search requires an ordered list, so one must weigh the cost of sorting or
+maintaining the list in sorted order.  Ordered lists have O(n) time complexity
+for inserts.  Binary Searches are best when the data set is already ordered, or
+will be searched enough times to justify the cost of an initial sort.
 
-Profile, then benchmark, and finally optimize.  Tom Duff (inventor of the
-diabolical "Duff's Device")
-L<once said|http://www.lysator.liu.se/c/duffs-device.html>, "I<If your code is
-too slow, you must make it faster.  If no better algorithm is available, you
-must trim cycles.>" L<List::BinarySearch::XS> provides an algorithm that is
-better under certain circumstances.  And the XS code does its best to also
-trim cycles.
+There are cases where a binary search may be an excellent choice. Finding the
+first matching element in a list of 1,000,000 items with a linear search would
+have a worst-case of 1,000,000 iterations, whereas the worst case for a binary
+search of 1,000,000 elements is about 20 iterations.  In fact, if many lookups
+will be performed on a seldom-changed list, the savings of O(log n) lookups may
+outweigh the cost of sorting or performing occasional linear time inserts.
 
 
 =head1 EXPORT
@@ -243,6 +233,8 @@ In this regard, the callback is I<unlike> C<sort>, because C<sort> always
 compares elements to elements, whereas C<binsearch> compares a target with
 an element.
 
+The comparator is expected to return -1, 0, or 1 corresponding to "less than",
+"equal to", or "greater than" -- Just like C<sort>.
 
 =head1 DATA SET REQUIREMENTS
 
@@ -299,23 +291,20 @@ which means the build process requires a C compiler.  For most systems this
 isn't an issue.  For some users (ActiveState Perl users, for example), it may be
 advantageous to install a pre-built PPM distribution of this module.
 
-(*** THE INTEROPERABILITY DESCRIBED IN THE FOLLOWING PARAGRAPH IS NOT YET
-IMPLEMENTED ***)
-
 While it's perfectly Ok to use this module directly, a more flexible approach
 for the end user would be to C<use List::BinarySearch;>, while ensuring that
 L<List::BinarySearch::XS> is installed on the target machine.
 L<List::BinarySearch> will use the XS version automatically if it's installed,
-and will downgrade gracefully to the pure-Perl version if
+and will downgrade gracefully to the pure-Perl version of
 L<List::BinarySearch::XS> isn't installed.
+
+Users of L<List::BinarySearch> may override this behavior by setting
+C<$ENV{List_BinarySearch_PP}> to a true value.
+
 
 =head1 DEPENDENCIES
 
-This module uses L<Exporter|Exporter>, L<XSLoader>, and L<Test::More>, all of
-which have been core modules for some time.
-
-(*** THE INTEROPERABILITY DESCRIBED IN THE FOLLOWING PARAGRAPH IS NOT YET
-IMPLEMENTED ***)
+This module requires Perl 5.8 or newer.
 
 As mentioned above, the recommended point of entry is to install both this
 module and L<List::BinarySearch>.  If both are installed, using
