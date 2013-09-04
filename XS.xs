@@ -1,10 +1,11 @@
-
-
-
+/* XS code for List::BinarySearch::XS.pm, from the List::BinarySearch::XS
+ * distribution. (c)2013 David Oswald. See distribution POD for license
+ * information and documentation.
+ */
 
 
 /* Favor efficiency. There have been reports of this failing under Windows,
- * which needs further investigation once I see an appropriate FAIL report.
+ * which needs further investigation once I see an applicable FAIL report.
  */
 #define PERL_NO_GET_CONTEXT
 
@@ -24,9 +25,9 @@
 #    if !(defined(PERL_VERSION) || (SUBVERSION > 0 && defined(PATCHLEVEL)))
 #        include <could_not_find_Perl_patchlevel.h>
 #    endif
-#    define PERL_REVISION	5
-#    define PERL_VERSION	PATCHLEVEL
-#    define PERL_SUBVERSION	SUBVERSION
+#    define PERL_REVISION 5
+#    define PERL_VERSION  PATCHLEVEL
+#    define PERL_SUBVERSION SUBVERSION
 #endif
 
 
@@ -38,7 +39,6 @@
 #if PERL_VERSION < 12
 #define cxinc()                        Perl_cxinc(aTHX)
 #endif
-
 
 
 #include "multicall.h"
@@ -161,19 +161,34 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
 
 
 
-MODULE = List::BinarySearch::XS		PACKAGE = List::BinarySearch::XS		
+MODULE = List::BinarySearch::XS   PACKAGE = List::BinarySearch::XS
 PROTOTYPES: ENABLE
 
 SV *
 binsearch (block, needle, aref_haystack)
-	SV *	block
-	SV *	needle
-	SV *	aref_haystack
+  SV *  block
+  SV *  needle
+  SV *  aref_haystack
   PROTOTYPE: &$\@
+  PPCODE:
+    /* We need binsearch to return undef or empty list on no match, depending
+     * on context.  This snippet detects an undef rv, and just massages it
+     * into an empty list.
+     */
+    SV* rv = binsearch( block, needle, aref_haystack );
+    sv_2mortal(rv);
+    if( rv == &PL_sv_undef ) {
+      XSRETURN_EMPTY;
+    }
+    else {
+      PUSHs(rv);
+    }
+    /* In other words, only return something if our search was successful. */
+
 
 SV *
 binsearch_pos (block, needle, aref_haystack)
-	SV *	block
-	SV *	needle
-	SV *	aref_haystack
+  SV *  block
+  SV *  needle
+  SV *  aref_haystack
   PROTOTYPE: &$\@

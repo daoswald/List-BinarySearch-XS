@@ -1,27 +1,31 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
-0.01_004 Sat Aug 31 11:04:00 2013
+0.01_005 2013-09-04
+  - Added tests and bugfix for return value of binsearch on "no match" in list
+    context (Should be empty list.  Was a single element of undef).
+    
+0.01_004 2013-08-31
   - #define cxinc() if PERL_VERSION is less than 5.12 to restore
     compatibility with pre-5.12.
 
-0.01_003 Thu Aug 29 23:11:00 2013
+0.01_003 2013-08-29
   - Address some issues with backwards compatibility for Perl 5.10/5.8.
   - Test a fix for Windows.
   - Test a fix for the cxinc problem.
   - Make sure all "author" tests are disabled unless RELEASE_TESTING set.
   
-0.01_002 Thu Aug 22 13:23:00 2013
+0.01_002 2013-08-22
   - Restore compatibility with Perl versions older than 5.16 by changing
     av_top_index to av_len.  av_top_index is a more sanely named synonym to
     av_len, but wasn't available until Perl 5.16.
   - POD corrections.
 
-0.01_001 Wed Aug 21 16:00:00 2013
+0.01_001 2013-08-21
   - Applied code adapted from a binary search utility written with Inline::C.
   - Adapted POD from List::BinarySearch
   - Minimal testing added (additional still to be adapted from L::BS).
 
-0.01  Tue Aug 20 14:55:09 2013
+0.01  2013-08-20
 	- original version; created by h2xs 1.23 with options
 		-A -b 5.8.0 -n List::BinarySearch::XS
 

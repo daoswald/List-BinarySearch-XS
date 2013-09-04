@@ -31,9 +31,6 @@ __END__
 
 List::BinarySearch::XS - Binary Search a sorted array with XS routines.
 
-=head1 VERSION
-
-Version 0.01_002
 
 =head1 SYNOPSIS
 
@@ -69,8 +66,8 @@ Examples:
 
 =head1 DESCRIPTION
 
-B<This is a beta-level DEVELOPER'S release. Use at your own risk. Testing
-and feeback are welcome.>
+B<This is a DEVELOPER'S release. Use at your own risk. Testing and feeback are
+welcome.>
 
 A binary search searches I<sorted> lists using a divide and conquer technique.
 On each iteration the search domain is cut in half, until the result is found.
@@ -321,6 +318,7 @@ compatibility with earlier Perl versions will be considered (and welcomed) if
 they have no measurable impact on efficiency, and especially if they come in
 the form of a git patch, complete with tests. ;)
 
+
 =head1 AUTHOR
 
 David Oswald, C<< <davido at cpan.org> >>
@@ -329,9 +327,7 @@ If the documentation fails to answer your question, or if you have a comment
 or suggestion, send me an email.
 
 
-
 =head1 DIAGNOSTICS
-
 
 
 =head1 BUGS AND LIMITATIONS
@@ -342,11 +338,11 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=List-BinarySearch-XS>.  I will
 be notified, and then you'll automatically be notified of progress on your bug
 as I make changes.
 
-For the time being, L<List::BinarySearch::XS> does not implement the
-C<binsearch_range> function available in L<List::BinarySearch>.  Although that
-function came almost directly from Mastering Algorithms with Perl, I'm not
-convinced that the function is useful as implemented.  See the POD for
-L<List::BinarySearch> for additional information.
+L<List::BinarySearch::XS> does not provide the C<binsearch_range> function that
+appears in L<List::BinarySearch>.  However, L<List::BinarySearch> is used, and
+this XS module is installed, that function will be available.  See the POD for
+L<List::BinarySearch> for details.
+
 
 =head1 SUPPORT
 
@@ -380,7 +376,6 @@ L<http://cpanratings.perl.org/d/List-BinarySearch-XS>
 L<http://search.cpan.org/dist/List-BinarySearch-XS/>
 
 =back
-
 
 
 =head1 ACKNOWLEDGEMENTS

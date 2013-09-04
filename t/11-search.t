@@ -57,8 +57,7 @@ is( ( binsearch { $a <=> $b } 10, @{[ 7, 9, 11 ]} ), undef,
     'binsearch: undef returned in scalar context for no match.'
 );
 
-TODO: {
-  local $TODO = "Return empty list in list context on no match not fixed yet.";
+{
   my @result_set = binsearch { $a <=> $b } 10, @{[ 7, 9, 11 ]};
   is( scalar @result_set, 0,
       'binsearch: empty list returned in list context for no match.'
