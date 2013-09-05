@@ -48,7 +48,7 @@
 
 /* Returns index of found element, or undef if none found. */
 
-SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
+I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
   dTHX;
   dSP;
   dMULTICALL;
@@ -71,7 +71,7 @@ SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
 
   max = av_len( (AV*)SvRV(aref_haystack) ); /* Perl 5.16 applied av_top_index synonym */
 
-  if( max < 0 ) return &PL_sv_undef; /* Empty list; needle can't be found. */
+  if( max < 0 ) return -1; /* Empty list; needle can't be found. */
 
   PUSH_MULTICALL(cv);
 
@@ -99,13 +99,13 @@ SV* binsearch( SV* block, SV* needle, SV* aref_haystack ) {
     MULTICALL;
     if( SvIV(*PL_stack_sp ) == 0 ) {
       POP_MULTICALL;
-      return newSViv(min);
+      return min;
     }
   }
 
   /* Otherwise we have a loser. */
   POP_MULTICALL;
-  return &PL_sv_undef; /* Not found. */
+  return -1; /* Not found. */
 }
 
 
@@ -175,13 +175,13 @@ binsearch (block, needle, aref_haystack)
      * on context.  This snippet detects an undef rv, and just massages it
      * into an empty list.
      */
-    SV* rv = binsearch( block, needle, aref_haystack );
-    sv_2mortal(rv);
-    if( rv == &PL_sv_undef ) {
+    I32 rv = binsearch( block, needle, aref_haystack );
+    if( rv == -1 ) {
       XSRETURN_EMPTY;
     }
     else {
-      PUSHs(rv);
+      SV* output = sv_2mortal(newSViv(rv));
+      PUSHs(output);
     }
     /* In other words, only return something if our search was successful. */
 
