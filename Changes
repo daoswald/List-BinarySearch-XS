@@ -1,5 +1,13 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
+0.02 2013-09-05
+  - PUBLIC RELEASE
+  - Enough smoke tests have trickled in that I'm comfortable with portability
+    from Perl 5.8.9 through present.  Would like to see more Windows tests, but
+    unofficial reports are that we build and test alright there as well.
+  - Bump version number to 0.02 and release.
+  - This version is compatible as a plugin for List::BinarySearch v0.12.
+
 0.01_005 2013-09-04
   - Added tests and bugfix for return value of binsearch on "no match" in list
     context (Should be empty list.  Was a single element of undef).
