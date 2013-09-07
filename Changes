@@ -1,7 +1,9 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
-0.03 2013-09-12
-  - Micro-optimization in XS code for binsearch.
+0.03 2013-09-06
+  - Micro-optimization in XS code for binsearch (Consolidated output code
+    into PPCODE section.
+  - Remove "DEV RELEASE" mention in POD.
 
 0.02 2013-09-05
   - PUBLIC RELEASE

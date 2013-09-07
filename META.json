@@ -4,7 +4,7 @@
       "David Oswald <davido [@at] cpan [d.o.t.] org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.132140",
+   "generated_by" : "ExtUtils::MakeMaker version 6.74, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -36,5 +36,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : "0.02"
+   "version" : "0.03"
 }

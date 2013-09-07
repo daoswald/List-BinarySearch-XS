@@ -15,7 +15,7 @@ our @EXPORT_OK = qw( binsearch binsearch_pos );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our $XS_VERSION = $VERSION;
 require XSLoader;
 XSLoader::load('List::BinarySearch::XS', $VERSION);
@@ -65,9 +65,6 @@ Examples:
 
 
 =head1 DESCRIPTION
-
-B<This is a DEVELOPER'S release. Use at your own risk. Testing and feeback are
-welcome.>
 
 A binary search searches I<sorted> lists using a divide and conquer technique.
 On each iteration the search domain is cut in half, until the result is found.
