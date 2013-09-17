@@ -1,5 +1,8 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
+0.04 2013-09-17
+  - Improvements to auto-generated META.* files.
+
 0.03 2013-09-06
   - Micro-optimization in XS code for binsearch (Consolidated output code
     into PPCODE section.

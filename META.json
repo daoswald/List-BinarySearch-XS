@@ -22,7 +22,6 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "English" : "0",
             "Test::More" : "0.98"
          }
       },
@@ -32,9 +31,17 @@
          }
       },
       "runtime" : {
-         "requires" : {}
+         "requires" : {
+            "perl" : "5.008000"
+         }
+      }
+   },
+   "provides" : {
+      "List::BinarySearch::XS" : {
+         "file" : "lib/List/BinarySearch/XS.pm",
+         "version" : "0.04"
       }
    },
    "release_status" : "stable",
-   "version" : "0.03"
+   "version" : "0.04"
 }
