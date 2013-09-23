@@ -24,7 +24,7 @@ WriteMakefile(
         resources   => {
             repository  => {
                 type  => 'git',
-                url   => 'git://github.com/daoswald/List-BinarySearch-XS.git',
+                url   => 'https://github.com/daoswald/List-BinarySearch.git',
                 web   => 'https://github.com/daoswald/List-BinarySearch-XS',
             },
         },
