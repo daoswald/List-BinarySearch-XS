@@ -20,7 +20,15 @@ WriteMakefile(
       'Test::More'  => '0.98',          # Core, but we use newer semantics.
     },
     META_MERGE          => {
-        provides => {
+        'meta-spec' => { version => 2 },
+        resources   => {
+            repository  => {
+                type  => 'git',
+                url   => 'git://github.com/daoswald/List-BinarySearch-XS.git',
+                web   => 'https://github.com/daoswald/List-BinarySearch-XS',
+            },
+        },
+        provides    => {
             'List::BinarySearch::XS' => {
                 file    => 'lib/List/BinarySearch/XS.pm',
                 version => '0.04',
