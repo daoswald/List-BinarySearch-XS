@@ -31,7 +31,7 @@ WriteMakefile(
         provides    => {
             'List::BinarySearch::XS' => {
                 file    => 'lib/List/BinarySearch/XS.pm',
-                version => '0.04',
+                version => '0.05',
             },
         },
     },
