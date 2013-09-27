@@ -2,6 +2,7 @@ Revision history for Perl extension List::BinarySearch::XS.
 
 0.05
   - Added git repository to META information.
+  - Removed unnecessary max==min test in binsearch (save a cycle or two).
 
 0.04 2013-09-17
   - Improvements to auto-generated META.* files.

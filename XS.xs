@@ -93,14 +93,12 @@ I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
   }
 
   /* Detect if we have a winner, and who won. */
-  if( max == min ) {
-    GvSV(agv) = needle;
-    GvSV(bgv) = *av_fetch((AV*)SvRV(aref_haystack),min,0);
-    MULTICALL;
-    if( SvIV(*PL_stack_sp ) == 0 ) {
-      POP_MULTICALL;
-      return min;
-    }
+  GvSV(agv) = needle;
+  GvSV(bgv) = *av_fetch((AV*)SvRV(aref_haystack),min,0);
+  MULTICALL;
+  if( SvIV(*PL_stack_sp ) == 0 ) {
+    POP_MULTICALL;
+    return min;
   }
 
   /* Otherwise we have a loser. */
