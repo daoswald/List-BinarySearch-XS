@@ -15,7 +15,7 @@ our @EXPORT_OK = qw( binsearch binsearch_pos );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 our $XS_VERSION = $VERSION;
 require XSLoader;
 XSLoader::load('List::BinarySearch::XS', $VERSION);
@@ -60,7 +60,7 @@ Examples:
     $index = binsearch_pos 600, @num_array;                   # Insert at [5].
 
     # Insert based on a binsearch_pos return value.
-    splice @num_array, $index, 1, 600
+    splice @num_array, $index, 0, 600
       if( $num_array[$index] != 600 );                        # Insertion at [5]
 
 

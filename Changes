@@ -1,6 +1,9 @@
 Revision history for Perl extension List::BinarySearch::XS.
 
-0.05
+0.06 2013-10-28
+  - Fixed typo(bug) in POD example. (RT#89819).
+
+0.05 2013-10-27
   - Added git repository to META information.
   - Removed unnecessary max==min test in binsearch (save a cycle or two).
 

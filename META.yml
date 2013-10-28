@@ -4,7 +4,7 @@ author:
   - 'David Oswald <davido [@at] cpan [d.o.t.] org>'
 build_requires: {}
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.132140'
+generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -17,7 +17,7 @@ no_index:
 provides:
   List::BinarySearch::XS:
     file: lib/List/BinarySearch/XS.pm
-    version: 0.04
+    version: 0.06
 resources:
   repository: https://github.com/daoswald/List-BinarySearch.git
-version: 0.04
+version: 0.06
