@@ -15,7 +15,7 @@ our @EXPORT_OK = qw( binsearch binsearch_pos );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 our $XS_VERSION = $VERSION;
 require XSLoader;
 XSLoader::load('List::BinarySearch::XS', $VERSION);
@@ -330,10 +330,9 @@ or suggestion, send me an email.
 =head1 BUGS AND LIMITATIONS
 
 Please report any bugs or feature requests to
-C<bug-list-binarysearch-xs at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=List-BinarySearch-XS>.  I will
-be notified, and then you'll automatically be notified of progress on your bug
-as I make changes.
+L<https://github.com/daoswald/List-BinarySearch-XS/issues>.  I will be 
+notified, and then you'll automatically be notified of progress on your bug as
+I make changes.
 
 L<List::BinarySearch::XS> does not provide the C<binsearch_range> function that
 appears in L<List::BinarySearch>.  However, L<List::BinarySearch> is used, and
@@ -356,9 +355,9 @@ information at:
 
 L<http://www.github.com/daoswald/List-BinarySearch-XS>
 
-=item * RT: CPAN's request tracker (report bugs here)
+=item * GitHub Issue tracker (report bugs here)
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=List-BinarySearch-XS>
+L<https://github.com/daoswald/List-BinarySearch-XS/issues>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 

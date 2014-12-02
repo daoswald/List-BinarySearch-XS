@@ -77,7 +77,7 @@ I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
 
   while( max > min ) {
 
-    I32 mid = ( min + max ) / 2;
+    I32 mid = ( max - min ) / 2 + min;
     
     /* Fetch value at aref_haystack->[mid] */
     GvSV(agv) = needle;
@@ -139,7 +139,7 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
 
   while( low < high ) {
 
-    I32 cur = ( low + high ) / 2;
+    I32 cur = ( high - low ) / 2 + low;
     
     /* Fetch value at aref_haystack->[mid] */
     GvSV(agv) = needle;

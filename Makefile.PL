@@ -22,6 +22,9 @@ WriteMakefile(
     META_MERGE          => {
         'meta-spec' => { version => 2 },
         resources   => {
+            bugtracker => {
+                web => 'https://github.com/daoswald/List/BinarySearch-XS/issues',
+            },
             repository  => {
                 type  => 'git',
                 url   => 'https://github.com/daoswald/List-BinarySearch-XS.git',
@@ -31,7 +34,7 @@ WriteMakefile(
         provides    => {
             'List::BinarySearch::XS' => {
                 file    => 'lib/List/BinarySearch/XS.pm',
-                version => '0.06',
+                version => '0.07',
             },
         },
     },
