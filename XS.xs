@@ -54,12 +54,13 @@ I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
   dMULTICALL;
   GV *gv;
   HV *stash;
-  I32 gimme = G_SCALAR;
-  CV *cv = sv_2cv(block, &stash, &gv, 0);
-  I32 min = 0;
-  I32 max = 0;
-  GV *agv = gv_fetchpv("a", GV_ADD, SVt_PV);
-  GV *bgv = gv_fetchpv("b", GV_ADD, SVt_PV);
+  I32 gimme     = G_SCALAR;
+  CV *cv        = sv_2cv(block, &stash, &gv, 0);
+  I32 min       = 0;
+  I32 max       = 0;
+  GV *agv       = gv_fetchpv("a", GV_ADD, SVt_PV);
+  GV *bgv       = gv_fetchpv("b", GV_ADD, SVt_PV);
+  AV *haystack  = 0;
   SAVESPTR(GvSV(agv));
   SAVESPTR(GvSV(bgv));
 
@@ -69,7 +70,8 @@ I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
   if( ! SvROK( aref_haystack ) || SvTYPE(SvRV(aref_haystack)) != SVt_PVAV )
     croak( "Argument must be an array ref.\n" );
 
-  max = av_len( (AV*)SvRV(aref_haystack) ); /* Perl 5.16 applied av_top_index synonym */
+  haystack = (AV*)SvRV(aref_haystack);
+  max = av_len(haystack); /* Perl 5.16 applied av_top_index synonym */
 
   if( max < 0 ) return -1; /* Empty list; needle can't be found. */
 
@@ -81,7 +83,7 @@ I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
     
     /* Fetch value at aref_haystack->[mid] */
     GvSV(agv) = needle;
-    GvSV(bgv) = *av_fetch( (AV*)SvRV(aref_haystack), mid, 0 );  /* Hay */
+    GvSV(bgv) = *av_fetch(haystack,mid,0);  /* Hay */
 
     MULTICALL;
     if( SvIV( *PL_stack_sp ) == 1 ) {  /* if ($a<=>$b) > 0 */
@@ -94,7 +96,7 @@ I32 binsearch( SV* block, SV* needle, SV* aref_haystack ) {
 
   /* Detect if we have a winner, and who won. */
   GvSV(agv) = needle;
-  GvSV(bgv) = *av_fetch((AV*)SvRV(aref_haystack),min,0);
+  GvSV(bgv) = *av_fetch(haystack,min,0);
   MULTICALL;
   if( SvIV(*PL_stack_sp ) == 0 ) {
     POP_MULTICALL;
@@ -116,12 +118,13 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
   dMULTICALL;
   GV *gv;
   HV *stash;
-  I32 gimme = G_SCALAR;
-  CV *cv = sv_2cv(block, &stash, &gv, 0);
-  I32 low = 0;
-  I32 high = 0;
-  GV *agv = gv_fetchpv("a", GV_ADD, SVt_PV);
-  GV *bgv = gv_fetchpv("b", GV_ADD, SVt_PV);
+  I32 gimme    = G_SCALAR;
+  CV *cv       = sv_2cv(block, &stash, &gv, 0);
+  I32 low      = 0;
+  I32 high     = 0;
+  GV *agv      = gv_fetchpv("a", GV_ADD, SVt_PV);
+  GV *bgv      = gv_fetchpv("b", GV_ADD, SVt_PV);
+  AV *haystack = 0;
   SAVESPTR(GvSV(agv));
   SAVESPTR(GvSV(bgv));
 
@@ -131,7 +134,8 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
   if( ! SvROK( aref_haystack ) || SvTYPE(SvRV(aref_haystack)) != SVt_PVAV )
     croak( "Argument must be an array ref.\n" );
 
-  high = av_len( (AV*)SvRV(aref_haystack) ) + 1; /* scalar @{$aref} (Perl 5.16 introduced av_top_index synonym.) */
+  haystack = (AV*)SvRV(aref_haystack);
+  high = av_len(haystack) + 1; /* scalar @{$aref} (Perl 5.16 introduced av_top_index synonym.) */
 
   if( high <= 0 ) return newSViv(low); /* Empty list; insert at zero. */
 
@@ -143,7 +147,7 @@ SV* binsearch_pos( SV* block, SV* needle, SV* aref_haystack ) {
     
     /* Fetch value at aref_haystack->[mid] */
     GvSV(agv) = needle;
-    GvSV(bgv) = *av_fetch( (AV*)SvRV(aref_haystack), cur, 0 );  /* Hay */
+    GvSV(bgv) = *av_fetch(haystack,cur,0);  /* Hay */
 
     MULTICALL;
     if( SvIV( *PL_stack_sp ) > 0 ) {  /* if ($a<=>$b) > 0 */
