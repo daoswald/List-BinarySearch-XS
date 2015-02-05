@@ -23,7 +23,7 @@ WriteMakefile(
         'meta-spec' => { version => 2 },
         resources   => {
             bugtracker => {
-                web => 'https://github.com/daoswald/List/BinarySearch-XS/issues',
+                web => 'https://github.com/daoswald/List-BinarySearch-XS/issues',
             },
             repository  => {
                 type  => 'git',
