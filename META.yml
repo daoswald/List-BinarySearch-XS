@@ -24,6 +24,6 @@ provides:
 requires:
   perl: '5.008000'
 resources:
-  bugtracker: https://github.com/daoswald/List/BinarySearch-XS/issues
+  bugtracker: https://github.com/daoswald/List-BinarySearch-XS/issues
   repository: https://github.com/daoswald/List-BinarySearch-XS.git
 version: '0.08'
