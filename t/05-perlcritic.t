@@ -6,7 +6,6 @@ use warnings;
 use Test::More;
 use English qw( -no_match_vars );
 
-
 # To enable this suite one must set the RELEASE_TESTING environment variable
 # to a true value.
 # This prevents author tests from running on a user install.
@@ -36,7 +35,4 @@ Test::Perl::Critic->import( -severity => 4 );
 # test suite (t/).
 my @directories = qw{  blib/  t/  };
 
-
 Test::Perl::Critic::all_critic_ok( @directories );
-
-done_testing();
